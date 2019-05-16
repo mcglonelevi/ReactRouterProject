@@ -7,8 +7,8 @@ export default function Screen(props) {
   return (
     <View
       style={{
-          height,
-          width,
+        height,
+        width,
       }}
       >
       {props.children}

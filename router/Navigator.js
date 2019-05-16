@@ -24,6 +24,7 @@ export default class Navigator extends React.Component {
   removeOldComponent() {
     this.setState({
       componentBuffer: this.getComponentBuffer().slice(0, 1),
+      containerStyle: null,
     });
   }
 

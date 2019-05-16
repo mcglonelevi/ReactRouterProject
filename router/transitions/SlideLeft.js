@@ -11,7 +11,7 @@ export default function getSlideLeft() {
     },
     to: {
       toValue: 0,
-      duration: 2000,
+      duration: 1000,
     },
     property: 'left',
   }
