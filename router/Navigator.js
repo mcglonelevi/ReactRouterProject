@@ -8,7 +8,7 @@ export default class Navigator extends React.Component {
     super(props);
     this.state = {
       componentBuffer: this.computeComponentBuffer(null, null),
-      styles: {},
+      styles: [],
     };
 
     this.updateNavigator = this.updateNavigator.bind(this);
@@ -27,7 +27,8 @@ export default class Navigator extends React.Component {
     const animation = new SlideLeft();
 
     this.setState((prevState) => ({
-      componentBuffer: this.computeComponentBuffer(prevState, animation.getAnimationStyles()),
+      componentBuffer: this.computeComponentBuffer(prevState),
+      styles: animation.getAnimationStyles(),
     }), () => {
       animation.animate(this.removeOldComponent);
     });
@@ -44,42 +45,39 @@ export default class Navigator extends React.Component {
     });
   }
 
-  getComponentIndexStyle(styles, index) {
-    return styles && styles[index] ? styles[index] : null;
+  getComponentIndexStyle(index) {
+    return this.state.styles && this.state.styles[index] ? this.state.styles[index] : null;
   }
 
-  computeComponentBuffer(prevState, styles) {
+  computeComponentBuffer(prevState) {
     const Component = this.props.component;
-    const key = Math.floor(Math.random() * 10);
-
-    if (this.state && this.state.styles) {
-      this.state.styles[key] = this.getComponentIndexStyle(styles, 0);
-    }
-    
 
     const renderedComponent = (
-      <Screen key={key} style={this.state && this.state.styles && this.state.styles[key] || null}>
-        <Component
-          push={this.props.push}
-          back={this.props.back}
-          reset={this.props.reset}
-        />
-      </Screen>
+      <Component
+        push={this.props.push}
+        back={this.props.back}
+        reset={this.props.reset}
+      />
     );
 
-    const componentStack = [renderedComponent].concat(this.getComponentBuffer(prevState)).slice(0, 2);
-
-    if (componentStack[1]) {
-      this.state.styles[componentStack[1].key] = this.getComponentIndexStyle(styles, 1);
-    }
-
-    return componentStack;
+    return [renderedComponent].concat(this.getComponentBuffer(prevState)).slice(0, 2);
   }
 
   render() {
     return (
       <View>
-        {this.state.componentBuffer}
+        <Screen style={this.getComponentIndexStyle(0)}>
+          {this.state.componentBuffer[0]}
+        </Screen>
+        {
+          this.state.componentBuffer[1]
+            ?
+          <Screen style={this.getComponentIndexStyle(1)}>
+            {this.state.componentBuffer[1]}
+          </Screen>
+            :
+          null
+        }
       </View>
     );
   }
