@@ -1,17 +1,11 @@
 import React from 'react';
-import Screen1 from '../components/Screen1';
-import Screen2 from '../components/Screen2';
 import Navigator from './Navigator';
 
 export default class Router extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      routes: {
-        '/': Screen1,
-        '/screen2': Screen2,
-      },
-      routeStack: ['/'],
+      routeStack: props.routeStack,
     };
 
     this.push = this.push.bind(this);
@@ -38,7 +32,7 @@ export default class Router extends React.Component {
   }
 
   render() {
-    const Component = this.state.routes[this.state.routeStack[0]];
+    const Component = this.props.routes[this.state.routeStack[0]];
     return (
       <Navigator
         component={Component}
