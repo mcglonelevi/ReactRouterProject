@@ -1,7 +1,7 @@
 import { Dimensions, Animated } from 'react-native';
 
 export default function getSlideLeft() {
-  const {height, width} = Dimensions.get('window');
+  const { height, width } = Dimensions.get('window');
 
   return {
     style: {
@@ -14,5 +14,5 @@ export default function getSlideLeft() {
       duration: 1000,
     },
     property: 'left',
-  }
-};
+  };
+}

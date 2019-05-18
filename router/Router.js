@@ -41,7 +41,7 @@ export default class Router extends React.Component {
     console.log(this.state);
     const Component = this.state.routes[this.state.routeStack[0]];
     return (
-      <Navigator component={Component} push={this.push} back={this.back} reset={this.reset} updateNavigator={(func) => {this.updateNavigator = func;}}/>
+      <Navigator component={Component} push={this.push} back={this.back} reset={this.reset} updateNavigator={(func) => { this.updateNavigator = func; }} />
     );
   }
 }
