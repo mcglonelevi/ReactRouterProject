@@ -1,17 +1,22 @@
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { Animated, Dimensions } from 'react-native';
 
 export default function Screen(props) {
   const { height, width } = Dimensions.get('window');
+  const styleObject = {
+    height,
+    width,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    ...props.style
+  };
 
   return (
-    <View
-      style={{
-        height,
-        width,
-      }}
+    <Animated.View
+      style={styleObject}
     >
       {props.children}
-    </View>
+    </Animated.View>
   );
 }
