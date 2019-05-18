@@ -4,7 +4,7 @@
 
 This is my attempt to build a better React Router.  Here are my requirements:
 
-1. Creating route animations should be easy and simple.  POJO's at a minimum and classes for more advanced uses.  Eventually, an animation builder may be implemented.
+1. Creating route animations should be easy and simple.  A simple class should be all that is required to create an animation.  Eventually, an animation builder may be implemented.
 1. Animations should be flexible enough to accomplish most use cases.
 1. Routing with animations should be easy and controlled by the calling component.
 1. The router should be efficient in terms of rendering 2 page components max and only during animation transitions.
