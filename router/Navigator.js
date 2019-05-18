@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import Screen from './Screen';
 import SlideLeft from './transitions/SlideLeft';
+import uuid from 'uuid';
 
 export default class Navigator extends React.Component {
   constructor(props) {
@@ -54,7 +55,7 @@ export default class Navigator extends React.Component {
 
     const renderedComponent = (
       <Component
-        key={Math.floor(Math.random() * 1000)}
+        key={uuid.v4()}
         push={this.props.push}
         back={this.props.back}
         reset={this.props.reset}
