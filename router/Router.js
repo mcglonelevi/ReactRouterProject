@@ -19,29 +19,34 @@ export default class Router extends React.Component {
     this.reset = this.reset.bind(this);
   }
 
-  push(route, opts) {
-    this.setState({
-      routeStack: [route].concat(this.state.routeStack),
-    }, () => this.updateNavigator());
+  push(route) {
+    this.setState(prevState => ({
+      routeStack: [route].concat(prevState.routeStack),
+    }), () => this.updateNavigator());
   }
 
   back() {
-    this.setState({
-      routeStack: this.state.routeStack.slice(1),
-    });
+    this.setState(prevState => ({
+      routeStack: prevState.routeStack.slice(1),
+    }), () => this.updateNavigator());
   }
 
   reset() {
-    this.setState({
-      routeStack: this.state.routeStack.slice(-1),
-    });
+    this.setState(prevState => ({
+      routeStack: prevState.routeStack.slice(-1),
+    }), () => this.updateNavigator());
   }
 
   render() {
-    console.log(this.state);
     const Component = this.state.routes[this.state.routeStack[0]];
     return (
-      <Navigator component={Component} push={this.push} back={this.back} reset={this.reset} updateNavigator={(func) => { this.updateNavigator = func; }} />
+      <Navigator
+        component={Component}
+        push={this.push}
+        back={this.back}
+        reset={this.reset}
+        updateNavigator={(func) => { this.updateNavigator = func; }}
+      />
     );
   }
 }

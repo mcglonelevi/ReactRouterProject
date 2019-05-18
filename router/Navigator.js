@@ -1,7 +1,5 @@
 import React from 'react';
-import { Animated, View } from 'react-native';
-import Screen1 from '../components/Screen1';
-import Screen2 from '../components/Screen2';
+import { Animated } from 'react-native';
 import Screen from './Screen';
 import getSlideLeft from './transitions/SlideLeft';
 
@@ -21,11 +19,12 @@ export default class Navigator extends React.Component {
     this.props.updateNavigator(this.updateNavigator);
   }
 
-  removeOldComponent() {
-    this.setState({
-      componentBuffer: this.getComponentBuffer().slice(0, 1),
-      containerStyle: null,
-    });
+  getComponentBuffer() {
+    return (this.state && this.state.componentBuffer ? this.state.componentBuffer : []);
+  }
+
+  propsChanged(prevState) {
+    return prevState.componentBuffer[0].key !== this.state.componentBuffer[0].key;
   }
 
   updateNavigator() {
@@ -42,12 +41,11 @@ export default class Navigator extends React.Component {
     }, animate);
   }
 
-  propsChanged(prevState) {
-    return prevState.componentBuffer[0].key != this.state.componentBuffer[0].key;
-  }
-
-  getComponentBuffer() {
-    return (this.state && this.state.componentBuffer ? this.state.componentBuffer : []);
+  removeOldComponent() {
+    this.setState({
+      componentBuffer: this.getComponentBuffer().slice(0, 1),
+      containerStyle: null,
+    });
   }
 
   computeComponentBuffer() {
