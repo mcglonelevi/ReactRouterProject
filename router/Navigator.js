@@ -7,7 +7,7 @@ export default class Navigator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      componentBuffer: this.computeComponentBuffer(null, null),
+      componentBuffer: this.computeComponentBuffer(null),
       styles: [],
     };
 
@@ -54,6 +54,7 @@ export default class Navigator extends React.Component {
 
     const renderedComponent = (
       <Component
+        key={Math.floor(Math.random() * 1000)}
         push={this.props.push}
         back={this.props.back}
         reset={this.props.reset}
@@ -64,20 +65,17 @@ export default class Navigator extends React.Component {
   }
 
   render() {
+    const renderElems = this.state.componentBuffer.map((elem, index) => {
+      return (
+        <Screen key={elem.key} style={this.getComponentIndexStyle(index)}>
+          {this.state.componentBuffer[index]}
+        </Screen>
+      );
+    });
+
     return (
       <View>
-        <Screen style={this.getComponentIndexStyle(0)}>
-          {this.state.componentBuffer[0]}
-        </Screen>
-        {
-          this.state.componentBuffer[1]
-            ?
-          <Screen style={this.getComponentIndexStyle(1)}>
-            {this.state.componentBuffer[1]}
-          </Screen>
-            :
-          null
-        }
+        {renderElems}
       </View>
     );
   }
