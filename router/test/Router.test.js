@@ -9,91 +9,89 @@ import Delayed from '../transitions/Delayed';
 jest.useFakeTimers();
 
 const defaultRoutes = {
-    '/': () => <View testID="home" />,
-    '/test': () => <View testID="test" />,
+  '/': () => <View testID="home" />,
+  '/test': () => <View testID="test" />,
 };
 
 const defaultStack = [
-    '/'
+  '/',
 ];
 
-const mountRouter = (routes, stack) => {
-    return renderer.create(
-        <Router
-            routes={routes || defaultRoutes}
-            routeStack={stack || defaultStack}
-        />
-    );
-}
+const mountRouter = (routes, stack) => renderer.create(
+  <Router
+    routes={routes || defaultRoutes}
+    routeStack={stack || defaultStack}
+  />,
+);
 
 describe('<Router />', () => {
   it('renders without crashing', () => {
     mountRouter();
   });
 
-  describe('.push',  () => {
+  describe('.push', () => {
     it('adds to route stack', () => {
-        const router = mountRouter().getInstance();
-        router.push('/test');
-        expect(router.state.routeStack.length).toBe(2);
-        expect(router.state.routeStack[0]).toBe('/test');
+      const router = mountRouter().getInstance();
+      router.push('/test');
+      expect(router.state.routeStack.length).toBe(2);
+      expect(router.state.routeStack[0]).toBe('/test');
     });
 
     describe('when Delayed animation is used', () => {
-        it('renders appropriate component', () => {
-            const router = mountRouter();
-            const instance = router.getInstance();
-            const root = router.root;
-            
-            // Finds initial instance
-            root.findByProps({testID: 'home'});
-            expect(root.findAllByProps({testID: 'test'}).length).toBe(0);
+      it('renders appropriate component', () => {
+        const router = mountRouter();
+        const instance = router.getInstance();
+        const { root } = router;
 
-            // Pushes and renders both briefly
-            instance.push('/test', { animation: new Delayed() });
-            root.findByProps({testID: 'home'});
-            root.findByProps({testID: 'test'});
+        // Finds initial instance
+        root.findByProps({ testID: 'home' });
+        expect(root.findAllByProps({ testID: 'test' }).length).toBe(0);
 
-            // Runs any animation timers
-            jest.runAllTimers();
+        // Pushes and renders both briefly
+        instance.push('/test', { animation: new Delayed() });
+        root.findByProps({ testID: 'home' });
+        root.findByProps({ testID: 'test' });
 
-            // home id disappears and test remains
-            root.findByProps({testID: 'test'});
-            expect(root.findAllByProps({testID: 'home'}).length).toBe(0);
-        });
+        // Runs any animation timers
+        jest.runAllTimers();
+
+        // home id disappears and test remains
+        root.findByProps({ testID: 'test' });
+        expect(root.findAllByProps({ testID: 'home' }).length).toBe(0);
+      });
     });
   });
 
-  describe('.back',  () => {
+  describe('.back', () => {
     it('removes from route stack', () => {
-        const router = mountRouter(defaultRoutes, ['/test', '/']).getInstance();
-        router.back();
-        expect(router.state.routeStack.length).toBe(1);
-        expect(router.state.routeStack[0]).toBe('/');
+      const router = mountRouter(defaultRoutes, ['/test', '/']).getInstance();
+      router.back();
+      expect(router.state.routeStack.length).toBe(1);
+      expect(router.state.routeStack[0]).toBe('/');
     });
 
     describe('when Delayed animation is used', () => {
-        it('renders appropriate component', () => {
-            const router = mountRouter(defaultRoutes, ['/test', '/']);
-            const instance = router.getInstance();
-            const root = router.root;
-            
-            // Finds initial instance
-            root.findByProps({testID: 'test'});
-            expect(root.findAllByProps({testID: 'home'}).length).toBe(0);
+      it('renders appropriate component', () => {
+        const router = mountRouter(defaultRoutes, ['/test', '/']);
+        const instance = router.getInstance();
+        const { root } = router;
 
-            // Pushes and renders both briefly
-            instance.back({ animation: new Delayed() });
-            root.findByProps({testID: 'home'});
-            root.findByProps({testID: 'test'});
+        // Finds initial instance
+        root.findByProps({ testID: 'test' });
+        expect(root.findAllByProps({ testID: 'home' }).length).toBe(0);
 
-            // Runs any animation timers
-            jest.runAllTimers();
+        // Pushes and renders both briefly
+        instance.back({ animation: new Delayed() });
+        root.findByProps({ testID: 'home' });
+        root.findByProps({ testID: 'test' });
 
-            // home id disappears and test remains
-            root.findByProps({testID: 'home'});
-            expect(root.findAllByProps({testID: 'test'}).length).toBe(0);
-        });
+        // Runs any animation timers
+        jest.runAllTimers();
+
+        // home id disappears and test remains
+        root.findByProps({ testID: 'home' });
+        expect(root.findAllByProps({ testID: 'test' }).length).toBe(0);
+      });
     });
   });
 });

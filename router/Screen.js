@@ -9,7 +9,7 @@ export default function Screen(props) {
     position: 'absolute',
     top: 0,
     left: 0,
-    ...props.style
+    ...props.style,
   };
 
   return (

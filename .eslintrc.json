@@ -21,6 +21,17 @@
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "react/prop-types": "off",
-        "react/destructuring-assignment": "off"
-    }
+        "react/destructuring-assignment": "off",
+        "class-methods-use-this": "off"
+    },
+    "overrides": [
+        {
+            "files": [
+                "*/test/*"
+            ],
+            "rules": {
+                "no-undef": "off"
+            }
+        }
+    ]
 }

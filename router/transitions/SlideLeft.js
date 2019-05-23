@@ -26,7 +26,7 @@ export default class SlideLeft {
             outputRange: [0, -this.width],
           }),
         }],
-      }
+      },
     ];
   }
 

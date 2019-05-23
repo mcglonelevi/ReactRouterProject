@@ -3,11 +3,6 @@ import Navigator from './Navigator';
 import Immediate from './transitions/Immediate';
 
 export default class Router extends React.Component {
-  static DEFAULT_PARAMETERS = {
-    animation: new Immediate(),
-    props: {},
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -50,3 +45,8 @@ export default class Router extends React.Component {
     );
   }
 }
+
+Router.DEFAULT_PARAMETERS = {
+  animation: new Immediate(),
+  props: {},
+};
