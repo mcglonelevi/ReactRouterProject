@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Text, View } from 'react-native';
+import SlideLeft from '../router/transitions/SlideLeft';
 
 export default function Screen2(props) {
   return (
@@ -11,7 +12,7 @@ export default function Screen2(props) {
     }}
     >
       <Text>Screen2!</Text>
-      <Button title="Screen 1" onPress={() => props.push('/')} />
+      <Button title="Screen 1" onPress={() => props.push('/', { animation: new SlideLeft() })} />
     </View>
   );
 }
