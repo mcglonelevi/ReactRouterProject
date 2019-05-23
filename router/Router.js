@@ -1,7 +1,13 @@
 import React from 'react';
 import Navigator from './Navigator';
+import Immediate from './transitions/Immediate';
 
 export default class Router extends React.Component {
+  static DEFAULT_PARAMETERS = {
+    animation: new Immediate(),
+    props: {},
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -13,22 +19,22 @@ export default class Router extends React.Component {
     this.reset = this.reset.bind(this);
   }
 
-  push(route) {
+  push(route, opts = {}) {
     this.setState(prevState => ({
       routeStack: [route].concat(prevState.routeStack),
-    }), () => this.updateNavigator());
+    }), () => this.updateNavigator(Object.assign({}, Router.DEFAULT_PARAMETERS, opts)));
   }
 
-  back() {
+  back(opts = {}) {
     this.setState(prevState => ({
       routeStack: prevState.routeStack.slice(1),
-    }), () => this.updateNavigator());
+    }), () => this.updateNavigator(Object.assign({}, Router.DEFAULT_PARAMETERS, opts)));
   }
 
-  reset() {
+  reset(opts = {}) {
     this.setState(prevState => ({
       routeStack: prevState.routeStack.slice(-1),
-    }), () => this.updateNavigator());
+    }), () => this.updateNavigator(Object.assign({}, Router.DEFAULT_PARAMETERS, opts)));
   }
 
   render() {

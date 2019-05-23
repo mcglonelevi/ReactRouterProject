@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
 import Screen from './Screen';
-import SlideLeft from './transitions/SlideLeft';
 import uuid from 'uuid';
 
 export default class Navigator extends React.Component {
@@ -24,11 +23,9 @@ export default class Navigator extends React.Component {
     return (prevState && prevState.componentBuffer ? prevState.componentBuffer : []);
   }
 
-  updateNavigator() {
-    const animation = new SlideLeft();
-
+  updateNavigator({ animation, props }) {
     this.setState((prevState) => ({
-      componentBuffer: this.computeComponentBuffer(prevState),
+      componentBuffer: this.computeComponentBuffer(prevState, props),
       styles: animation.getAnimationStyles(),
     }), () => {
       animation.animate(this.removeOldComponent);
@@ -48,7 +45,7 @@ export default class Navigator extends React.Component {
     return this.state.styles && this.state.styles[index] ? this.state.styles[index] : null;
   }
 
-  computeComponentBuffer(prevState) {
+  computeComponentBuffer(prevState, props = {}) {
     const Component = this.props.component;
 
     const renderedComponent = (
@@ -57,6 +54,7 @@ export default class Navigator extends React.Component {
         push={this.props.push}
         back={this.props.back}
         reset={this.props.reset}
+        {...props}
       />
     );
 
